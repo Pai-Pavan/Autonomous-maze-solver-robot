@@ -7,8 +7,8 @@
  *  navigation strategy for a differential drive robot.
  *
  *  Key Features:
- *  - Ultrasonic-based path detection (front + left)
- *  - IR-based lateral drift correction
+ *  - Ultrasonic based path detection (front + left)
+ *  - IR based lateral drift correction
  *  - Gyroscope based precise 90° turning (MPU6050)
  *  - Real time decision making for maze traversal
  *
@@ -93,14 +93,14 @@ void loop() {
   // Right IR triggered → drift towards right wall → steer left
   if (!digitalRead(IR_RIGHT)) {
     while (!digitalRead(IR_RIGHT)) {
-      motorControl(1, 0, 0, 0, 85, 85);
+      motorControl(1, 0, 0, 0, 85, 0);
     }
   }
 
   // Left IR triggered → drift towards left wall → steer right
   if (!digitalRead(IR_LEFT)) {
     while (!digitalRead(IR_LEFT)) {
-      motorControl(0, 0, 1, 0, 85, 85);
+      motorControl(0, 0, 1, 0, 0, 85);
     }
   }
 
@@ -135,9 +135,7 @@ void loop() {
   }
 }
 
-/* ============================================================
-   ================== MOTOR CONTROL ============================
-   ============================================================ */
+// ================== MOTOR CONTROL ============================
 /**
  * Controls motor direction and speed.
  * 
@@ -158,9 +156,7 @@ void motorControl(int in1, int in2, int in3, int in4, int pwmA, int pwmB) {
   delay(10);  // Small stabilization delay
 }
 
-/* ============================================================
-   ================== ULTRASONIC SENSOR ========================
-   ============================================================ */
+// ================== ULTRASONIC SENSOR ========================
 /**
  * Measures distance using ultrasonic sensor.
  * 
@@ -183,9 +179,7 @@ float readUltrasonic(int trig, int echo) {
   return distance;
 }
 
-/* ============================================================
-   ================== ROTATION FUNCTION ========================
-   ============================================================ */
+//================== ROTATION FUNCTION ========================
 /**
  * Performs precise 90° rotation using MPU6050 gyroscope.
  * 
@@ -211,7 +205,6 @@ void rotateBot(char direction) {
   gyroBias = (sum / 500) / 131.0;
 
   /* ----------- Rotation Loop ----------- */
-
   yaw = 0;
   lastTime = millis();
 
